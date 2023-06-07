@@ -1,0 +1,90 @@
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/usr/local/lib/python3.10/dist-packages/nbclient/client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/usr/local/lib/python3.10/dist-packages/jupyter_core/utils/__init__.py", line 166, in wrapped
+    return loop.run_until_complete(inner)
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/usr/local/lib/python3.10/dist-packages/nbclient/client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/lib/python3.10/dist-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/lib/python3.10/dist-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import psycopg2
+import pandas as pd
+import orchest
+# Connection parameters, yours will be different
+param_dic = {
+    "host"      : "postgresql-114521-0.cloudclusters.net",
+    "database"  : "sepallength",
+    "port"  : "17851",
+    "user"      : "hanif",
+    "password"  : "05102002"
+}
+def connect(params_dic):
+    """ Connect to the PostgreSQL database server """
+    conn = None
+    try:
+        # connect to the PostgreSQL server
+        print('Connecting to the PostgreSQL database...')
+        conn = psycopg2.connect(**params_dic)
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    print("Connection successful")
+    return conn
+
+def postgresql_to_dataframe(conn, select_query, column_names):
+    """
+    Tranform a SELECT query into a pandas dataframe
+    """
+    cursor = conn.cursor()
+    try:
+        cursor.execute(select_query)
+    except (Exception, psycopg2.DatabaseError) as error:
+        print("Error: %s" % error)
+        cursor.close()
+        return 1
+    
+    # Naturally we get a list of tupples
+    tupples = cursor.fetchall()
+    cursor.close()
+    
+    # We just need to turn it into a pandas dataframe
+    df = pd.DataFrame(tupples, columns=column_names)
+    return df
+
+# Connect to the database
+conn = connect(param_dic)
+
+column_names = ["id","sepallength"]
+
+df = postgresql_to_dataframe(conn, "select * from sepallength", column_names)
+print(df)
+------------------
+
+
+[0;31m[0m
+[0;31mModuleNotFoundError[0mTraceback (most recent call last)
+[0;32m<ipython-input-1-0da9298ba382>[0m in [0;36m<cell line: 3>[0;34m()[0m
+[1;32m      1[0m [0;32mimport[0m [0mpsycopg2[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      2[0m [0;32mimport[0m [0mpandas[0m [0;32mas[0m [0mpd[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 3[0;31m [0;32mimport[0m [0morchest[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      4[0m [0;31m# Connection parameters, yours will be different[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      5[0m param_dic = {
+
+[0;31mModuleNotFoundError[0m: No module named 'orchest'
+
+[0;31m---------------------------------------------------------------------------[0;32m
+NOTE: If your import is failing due to a missing package, you can
+manually install dependencies using either !pip or !apt.
+
+To view examples of installing some common dependencies, click the
+"Open Examples" button below.
+[0;31m---------------------------------------------------------------------------[0m
+
+
