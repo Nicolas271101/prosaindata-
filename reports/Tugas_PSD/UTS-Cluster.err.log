@@ -32,6 +32,6 @@ Here is a preview of the cell contents:
 -------------------
 ['from Sastrawi.Stemmer.StemmerFactory import StemmerFactory', '', 'factory = StemmerFactory()', 'stemmer = factory.create_stemmer()', 'def stemmingNormalize(comment):']
 ...
-['      kalimat += i', '      kalimat += " "', '    return kalimat', 'text = text.swifter.apply(stemmingNormalize)', 'text']
+['    for i in data:', '      kalimat += i', '      kalimat += " "', '    return kalimat', 'text = text.swifter.apply(stemmingNormalize)']
 -------------------
 
