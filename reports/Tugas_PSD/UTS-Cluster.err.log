@@ -30,8 +30,8 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['from Sastrawi.Stemmer.StemmerFactory import StemmerFactory', '', 'factory = StemmerFactory()', 'stemmer = factory.create_stemmer()', 'def stemmingNormalize(comment):']
+['# @timeout(60)', 'from Sastrawi.Stemmer.StemmerFactory import StemmerFactory', '', 'factory = StemmerFactory()', 'stemmer = factory.create_stemmer()']
 ...
-['    for i in data:', '      kalimat += i', '      kalimat += " "', '    return kalimat', 'text = text.swifter.apply(stemmingNormalize)']
+['      kalimat += i', '      kalimat += " "', '    return kalimat', 'text = text.swifter.apply(stemmingNormalize)', 'text']
 -------------------
 
